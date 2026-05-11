@@ -1,0 +1,167 @@
+    :root {
+            --primary-orange: #FF9500;
+            --dark-blue: #001529;
+            --light-gray: #f5f5f5;
+            --text-color: #1a1a1a;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        body {
+         
+            background: linear-gradient(135deg, #0056b3 0%, #e0f2fe 50%, #ffffff 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        header {
+            background: white;
+            margin: 20px auto;
+            width: 90%;
+            max-width: 1200px;
+            padding: 10px 25px;
+            border-radius: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+        .logo {
+            display: flex;
+            align-items: center;
+            font-weight: 800;
+            color: #0044cc;
+            font-size: 20px;
+            text-decoration: none;
+        }
+        .logo span { color: var(--primary-orange); }
+        .search-container {
+            flex-grow: 1;
+            margin: 0 20px;
+            position: relative;
+            max-width: 500px;
+        }
+        .search-container input {
+            width: 100%;
+            padding: 12px 20px;
+            border-radius: 30px;
+            border: 1px solid #ddd;
+            outline: none;
+            font-size: 14px;
+        }
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 500;
+            font-size: 14px;
+        }
+        .btn-login {
+            padding: 10px 25px;
+            border-radius: 30px;
+            border: 1px solid #ddd;
+            background: transparent;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+        .btn-signin {
+            padding: 10px 25px;
+            border-radius: 30px;
+            border: none;
+            background: var(--primary-orange);
+            color: white;
+            cursor: pointer;
+            font-weight: 600;
+            transition: var(--transition);
+        }
+
+        .btn-signin:hover { background: #e68600; }
+        .login-container {
+            flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+        .login-card {
+            background: white;
+            padding: 40px;
+            border-radius: 30px;
+            width: 100%;
+            max-width: 400px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            text-align: center;
+        }
+        .login-card h2 {
+            font-weight: 800;
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: var(--dark-blue);
+        }
+        .login-card h2 span { color: var(--primary-orange); }
+
+        .login-card p {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 13px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 15px;
+            border-radius: 15px;
+            border: 1px solid #eee;
+            background: #f9f9f9;
+            outline: none;
+            transition: var(--transition);
+        }
+        .form-group input:focus {
+            border-color: var(--primary-orange);
+            background: white;
+        }
+        .btn-submit {
+            width: 100%;
+            padding: 15px;
+            border-radius: 30px;
+            border: none;
+            background: var(--dark-blue);
+            color: white;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: var(--transition);
+        }
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+        }
+        .footer-text {
+            margin-top: 20px;
+            font-size: 13px;
+            color: #888;
+        }
+        .footer-text a {
+            color: var(--primary-orange);
+            text-decoration: none;
+            font-weight: 600;
+        }

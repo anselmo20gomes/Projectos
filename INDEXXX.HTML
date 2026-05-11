@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de Tarefas - CRUD</title>
+    <link rel="stylesheet" href="INDEXXX.CSS">
+    <script src="INDEXXX.JS"></script>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Gestor de Tarefas</h1>
+            <p>Organize suas tarefas de forma simples e eficiente</p>
+        </div>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number" id="totalTasks">0</div>
+                <div class="stat-label">Total</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="completedTasks">0</div>
+                <div class="stat-label">Concluídas</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="pendingTasks">0</div>
+                <div class="stat-label">Pendentes</div>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <input 
+                type="text" 
+                id="taskInput" 
+                placeholder="Adicione uma nova tarefa..."
+                autocomplete="off"
+            >
+            <button class="btn btn-primary" onclick="addTask()">
+                Adicionar
+            </button>
+        </div>
+        
+        <p>✨</p>
+
+        <div id="tasksList" class="tasks-list">
+            <div class="empty-state">
+                <div class=""></div>
+                <p>Nenhuma tarefa ainda</p>
+                <p style="font-size: 13px; margin-top: 8px;">Crie sua primeira tarefa acima</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

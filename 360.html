@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Price360 - Home</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;900&display=swap" rel="stylesheet">
+    <style>
+        /* Variáveis de Cores */
+        :root {
+            --primary-orange: #FF9500;
+            --main-blue: #0049C6;
+            --dark-text: #1a1a1a;
+            --white: #ffffff;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+
+        body {
+            /* Gradiente de fundo inspirado na imagem */
+            background: linear-gradient(105deg, #0049C6 0%, #79A7D9 45%, #E8F1F8 85%, #FFFFFF 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+        }
+
+        /* --- HEADER --- */
+        .navbar-container {
+            width: 100%;
+            padding: 25px 50px;
+            display: flex;
+            justify-content: center;
+        }
+
+        header {
+            background: var(--white);
+            width: 100%;
+            max-width: 1100px;
+            height: 70px;
+            border-radius: 100px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 30px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 900;
+            font-size: 22px;
+            color: var(--main-blue);
+            text-decoration: none;
+            letter-spacing: -1px;
+        }
+
+        .logo span { color: var(--primary-orange); }
+
+        .search-bar {
+            flex: 1;
+            max-width: 450px;
+            margin: 0 30px;
+            position: relative;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 12px 25px;
+            padding-right: 45px;
+            border-radius: 50px;
+            border: 1px solid #E0E0E0;
+            outline: none;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .search-bar i {
+            position: absolute;
+            right: 20px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #333;
+        }
+
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .nav-menu a {
+            text-decoration: none;
+            color: var(--dark-text);
+            font-size: 15px;
+            font-weight: 500;
+        }
+
+        .btn-login {
+            border: 1px solid #E0E0E0;
+            padding: 10px 22px;
+            border-radius: 50px;
+            background: none;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .btn-signin {
+            background: var(--primary-orange);
+            color: white;
+            border: none;
+            padding: 10px 25px;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        /* --- HERO SECTION --- */
+        .hero {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            padding: 0 20px;
+        }
+
+        .hero h1 {
+            font-size: 72px;
+            font-weight: 900;
+            line-height: 1.1;
+            color: var(--dark-text);
+            max-width: 800px;
+            margin-bottom: 30px;
+        }
+
+        .hero h1 span {
+            color: var(--primary-orange);
+            font-style: italic;
+        }
+
+        .hero p {
+            color: #666;
+            font-size: 18px;
+            max-width: 600px;
+            line-height: 1.6;
+            margin-bottom: 40px;
+        }
+
+        .hero-actions {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .btn-cta {
+            background: #CC7700; /* Laranja mais escuro como no botão inferior */
+            color: white;
+            border: none;
+            padding: 15px 35px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        .btn-search-icon {
+            background: none;
+            border: 2px solid #333;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+
+        /* Responsividade básica */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 40px; }
+            .search-bar, .nav-menu a { display: none; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="navbar-container">
+        <header>
+            <a href="#" class="logo">PRICE<span>360</span></a>
+            
+            <div class="search-bar">
+                <input type="text" placeholder="Pesquise por produtos ou marca ...">
+                <svg style="width:20px; position:absolute; right:15px; top:12px" viewBox="0 0 24 24"><path d="M15.5 14h-.79l-.28-.27A6.471 6.471 0 0 0 16 9.5 6.5 6.5 0 1 0 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"/></svg>
+            </div>
+
+            <div class="nav-menu">
+                <a href="#">Home</a>
+                <a href="#">Sobre</a>
+                <button class="btn-login">Login</button>
+                <button class="btn-signin">Sign in</button>
+            </div>
+        </header>
+    </div>
+
+    <main class="hero">
+        <h1>Todos os preços de todas as<span>lojas</span> num só lugar</h1>
+        
+        <p>Compare preços de produtos essenciais no Kero, Shoprite e muito mais. Crie as suas listas e encontre sempre as melhores ofertas.</p>
+
+        <div class="hero-actions">
+            <button class="btn-cta">Conhecer o price360</button>
+            <div class="btn-search-icon">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </div>
+        </div>
+    </main>
+</body>
+</html>

@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="PRICE360.CSS">
+</head>
+<body>
+    <header>
+        <a href="#" class="logo">PRICE<span>360</span></a>
+        
+        <div class="search-container">
+            <input type="text" placeholder="Pesquise por produtos ou marca ...">
+        </div>
+
+        <div class="nav-links">
+            <a href="categorias.html">Home</a>
+            <a href="#">Sobre</a>
+            <a href="PRICE360.HTML">Login</a>
+            <a href="PRICE360.HTML">Sign in</a>
+        </div>
+    </header>
+
+    <main class="login-container">
+        <div class="login-card">
+            <h2>Bem-vindo ao <span>Price360</span></h2>
+            <p>Compare preços e economize dinheiro connosco!</p>
+
+            <form id="loginForm">
+                <div class="form-group">
+                    <label>E-mail</label>
+                    <input type="email" placeholder="" required>
+                </div>
+                <div class="form-group">
+                    <label>Senha</label>
+                    <input type="password" placeholder="" required>
+                </div>
+                <button type="submit" class="btn-submit">Entrar na conta</button>
+            </form>
+
+            <div class="footer-text">
+            <a href="#"> Não tem uma conta?</a><br><a href="#">Cadastre-se</a>
+            </div>
+        </div>
+    </main>
+    <script>
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Login realizado com sucesso!');
+        });
+    </script>
+</body>
+</html>

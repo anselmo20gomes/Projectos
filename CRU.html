@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="pt-PT">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestor de Tarefas - COM API</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-tertiary: #334155;
+            --text-primary: #f1f5f9;
+            --text-secondary: #cbd5e1;
+            --accent-success: #10b981;
+            --accent-danger: #ef4444;
+            --accent-primary: #3b82f6;
+            --accent-hover: #1e40af;
+            --border-color: #475569;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, var(--bg-primary) 0%, var(--bg-secondary) 100%);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: var(--bg-secondary);
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.4);
+            padding: 30px;
+            border: 1px solid var(--border-color);
+        }
+
+        .header {
+            margin-bottom: 30px;
+            text-align: center;
+        }
+
+        .header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 8px;
+            background: linear-gradient(135deg, var(--accent-primary) 0%, #60a5fa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .header p {
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+
+        .badge {
+            display: inline-block;
+            background: var(--accent-success);
+            color: white;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-top: 8px;
+            font-weight: 600;
+        }
+
+        .input-group {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .input-group input {
+            flex: 1;
+            padding: 12px 16px;
+            background: var(--bg-tertiary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 14px;
+            transition: all 0.3s ease;
+        }
+
+        .input-group input:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            background: var(--bg-primary);
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+
+        .btn {
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .btn-primary {
+            background: var(--accent-primary);
+            color: white;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            background: var(--accent-hover);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+        }
+
+        .btn-primary:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+
+        .btn-danger {
+            background: var(--accent-danger);
+            color: white;
+            padding: 8px 12px;
+            font-size: 13px;
+        }
+
+        .btn-danger:hover:not(:disabled) {
+            background: #dc2626;
+            transform: translateY(-1px);
+        }
+
+        .btn-success {
+            background: var(--accent-success);
+            color: white;
+            padding: 8px 12px;
+            font-size: 13px;
+        }
+
+        .btn-success:hover:not(:disabled) {
+            background: #059669;
+            transform: translateY(-1px);
+        }
+
+        .tasks-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .task-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 16px;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            transition: all 0.3s ease;
+        }
+
+        .task-item:hover {
+            border-color: var(--accent-primary);
+            background: rgba(59, 130, 246, 0.05);
+        }
+
+        .task-item.completed {
+            opacity: 0.6;
+        }
+
+        .task-item.completed .task-text {
+            text-decoration: line-through;
+            color: var(--text-secondary);
+        }
+
+        .checkbox {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+            accent-color: var(--accent-success);
+        }
+
+        .task-text {
+            flex: 1;
+            color: var(--text-primary);
+            word-break: break-word;
+        }
+
+        .task-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+        }
+
+        .empty-state-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .empty-state p {
+            font-size: 14px;
+            margin-bottom: 8px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: var(--text-secondary);
+        }
+
+        .spinner {
+            border: 2px solid var(--border-color);
+            border-top: 2px solid var(--accent-primary);
+            border-radius: 50%;
+            width: 20px;
+            height: 20px;
+            animation: spin 0.6s linear infinite;
+            margin: 0 auto 10px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            padding: 16px;
+            background: var(--bg-tertiary);
+            border-radius: 8px;
+            margin-bottom: 20px;
+            border: 1px solid var(--border-color);
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--accent-primary);
+        }
+
+        .stat-label {
+            font-size: 12px;
+            color: var(--text-secondary);
+            margin-top: 4px;
+        }
+
+        .error {
+            padding: 12px;
+            background: rgba(239, 68, 68, 0.1);
+            border: 1px solid var(--accent-danger);
+            border-radius: 8px;
+            color: #fca5a5;
+            margin-bottom: 16px;
+            font-size: 13px;
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                padding: 20px;
+            }
+
+            .header h1 {
+                font-size: 24px;
+            }
+
+            .input-group {
+                flex-direction: column;
+            }
+
+            .stats {
+                gap: 12px;
+            }
+
+            .task-item {
+                flex-wrap: wrap;
+            }
+
+            .task-actions {
+                width: 100%;
+                justify-content: flex-end;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📋 Gestor de Tarefas</h1>
+            <p>Organize suas tarefas de forma simples e eficiente</p>
+            <span class="badge">✅ Com API Node.js</span>
+        </div>
+
+        <div id="errorContainer"></div>
+
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-number" id="totalTasks">0</div>
+                <div class="stat-label">Total</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="completedTasks">0</div>
+                <div class="stat-label">Concluídas</div>
+            </div>
+            <div class="stat">
+                <div class="stat-number" id="pendingTasks">0</div>
+                <div class="stat-label">Pendentes</div>
+            </div>
+        </div>
+
+        <div class="input-group">
+            <input 
+                type="text" 
+                id="taskInput" 
+                placeholder="Adicione uma nova tarefa..."
+                autocomplete="off"
+            >
+            <button class="btn btn-primary" id="addBtn" onclick="addTask()">
+                Adicionar
+            </button>
+        </div>
+
+        <div id="tasksList" class="tasks-list">
+            <div class="loading">
+                <div class="spinner"></div>
+                <p>Carregando tarefas...</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const taskInput = document.getElementById('taskInput');
+        const tasksList = document.getElementById('tasksList');
+        const totalTasksEl = document.getElementById('totalTasks');
+        const completedTasksEl = document.getElementById('completedTasks');
+        const pendingTasksEl = document.getElementById('pendingTasks');
+        const errorContainer = document.getElementById('errorContainer');
+        const addBtn = document.getElementById('addBtn');
+
+        const API_URL = 'http://localhost:3001/api';
+
+        // Mostrar erro
+        function showError(message) {
+            errorContainer.innerHTML = `<div class="error">❌ ${message}</div>`;
+            setTimeout(() => {
+                errorContainer.innerHTML = '';
+            }, 5000);
+        }
+
+        // Carregar tarefas da API
+        async function loadTasks() {
+            try {
+                const response = await fetch(`${API_URL}/tasks`);
+                if (!response.ok) throw new Error('Erro ao carregar tarefas');
+                return await response.json();
+            } catch (error) {
+                console.error('Erro:', error);
+                showError('Erro ao conectar com a API. Certifique-se que o servidor está rodando em localhost:3001');
+                return [];
+            }
+        }
+
+        // Adicionar nova tarefa
+        async function addTask() {
+            const taskText = taskInput.value.trim();
+
+            if (taskText === '') {
+                showError('Por favor, escreva uma tarefa!');
+                taskInput.focus();
+                return;
+            }
+
+            addBtn.disabled = true;
+
+            try {
+                const response = await fetch(`${API_URL}/tasks`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ text: taskText })
+                });
+
+                if (!response.ok) throw new Error('Erro ao criar tarefa');
+
+                taskInput.value = '';
+                taskInput.focus();
+                await renderTasks();
+            } catch (error) {
+                showError('Erro ao adicionar tarefa');
+                console.error('Erro:', error);
+            } finally {
+                addBtn.disabled = false;
+            }
+        }
+
+        // Atualizar tarefa (marcar como concluída)
+        async function toggleTask(id, currentCompleted) {
+            try {
+                const response = await fetch(`${API_URL}/tasks/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ completed: !currentCompleted })
+                });
+
+                if (!response.ok) throw new Error('Erro ao atualizar tarefa');
+
+                await renderTasks();
+            } catch (error) {
+                showError('Erro ao atualizar tarefa');
+                console.error('Erro:', error);
+            }
+        }
+
+        // Editar tarefa
+        async function editTask(id, currentText) {
+            const newText = prompt('Editar tarefa:', currentText);
+            if (newText !== null && newText.trim() !== '') {
+                try {
+                    const response = await fetch(`${API_URL}/tasks/${id}`, {
+                        method: 'PUT',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ text: newText.trim(), completed: false })
+                    });
+
+                    if (!response.ok) throw new Error('Erro ao editar tarefa');
+
+                    await renderTasks();
+                } catch (error) {
+                    showError('Erro ao editar tarefa');
+                    console.error('Erro:', error);
+                }
+            }
+        }
+
+        // Eliminar tarefa
+        async function deleteTask(id) {
+            if (confirm('Tem certeza que deseja eliminar esta tarefa?')) {
+                try {
+                    const response = await fetch(`${API_URL}/tasks/${id}`, {
+                        method: 'DELETE'
+                    });
+
+                    if (!response.ok) throw new Error('Erro ao deletar tarefa');
+
+                    await renderTasks();
+                } catch (error) {
+                    showError('Erro ao eliminar tarefa');
+                    console.error('Erro:', error);
+                }
+            }
+        }
+
+        // Atualizar estatísticas
+        async function updateStats() {
+            try {
+                const response = await fetch(`${API_URL}/stats`);
+                if (!response.ok) throw new Error('Erro ao buscar estatísticas');
+
+                const stats = await response.json();
+                totalTasksEl.textContent = stats.total;
+                completedTasksEl.textContent = stats.completed;
+                pendingTasksEl.textContent = stats.pending;
+            } catch (error) {
+                console.error('Erro ao atualizar estatísticas:', error);
+            }
+        }
+
+        // Renderizar lista de tarefas
+        async function renderTasks() {
+            const tasks = await loadTasks();
+            await updateStats();
+
+            if (tasks.length === 0) {
+                tasksList.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-state-icon">✨</div>
+                        <p>Nenhuma tarefa ainda</p>
+                        <p style="font-size: 13px; margin-top: 8px;">Crie sua primeira tarefa acima</p>
+                    </div>
+                `;
+                return;
+            }
+
+            tasksList.innerHTML = tasks.map(task => `
+                <div class="task-item ${task.completed ? 'completed' : ''}">
+                    <input 
+                        type="checkbox" 
+                        class="checkbox"
+                        ${task.completed ? 'checked' : ''}
+                        onchange="toggleTask(${task.id}, ${task.completed})"
+                    >
+                    <span class="task-text">${escapeHtml(task.text)}</span>
+                    <div class="task-actions">
+                        <button class="btn btn-success" onclick="editTask(${task.id}, '${escapeHtml(task.text).replace(/'/g, "\\'")}')" title="Editar">
+                            Editar
+                        </button>
+                        <button class="btn btn-danger" onclick="deleteTask(${task.id})" title="Eliminar">
+                            Eliminar
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Escape HTML para segurança
+        function escapeHtml(text) {
+            const map = {
+                '&': '&amp;',
+                '<': '&lt;',
+                '>': '&gt;',
+                '"': '&quot;',
+                "'": '&#039;'
+            };
+            return text.replace(/[&<>"']/g, m => map[m]);
+        }
+
+        // Event listener para Enter
+        taskInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') {
+                addTask();
+            }
+        });
+
+        // Carregar tarefas ao iniciar
+        renderTasks();
+    </script>
+    <script src="server.js"></script>
+</body>
+</html>
